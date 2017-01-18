@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue-template</title>
+    <script src="../Scripts/vue.js"></script>
+</head>
+<body>
+    <!--文本-->
+    <div id="msg">
+       <span>Message:{{ msg }}</span> 
+       <!--<span v-once>This will never change: {{ msg }}</span>-->
+    </div>
+    <!--渲染html-->
+    <div id="divHtml" v-html="rawHtml">
+    </div>
+    <!--属性 v-bind-->
+    <a id='alink' v-bind:href="Url">Let's go !</a>
+    <button id='btnshow' v-bind:disabled="isTrue">Button</button>
+
+    <!--v-on指令-->
+    <span id='do' v-on:click="doSomething">干死你</span>
+</body>
+<script type="text/javascript">
+    var vue_meg = new Vue({
+        el:'#msg',
+        data:{
+            msg:'andyWqh'
+        }
+    });
+    var vue_html = new Vue({
+        el:'#divHtml',
+        data:{
+            rawHtml:'<p style="color:red">andyWqh</p>'
+        }
+    });
+    var vue_alik = new Vue({
+        el:'#alink',
+        data:{
+             Url:'http://wwww.baidu.com' 
+        }
+    });
+    var vue_btn = new Vue({
+        el:'#btnshow',
+        data:{
+            isTrue:'false'
+        }
+    });
+    var vue_do = new Vue({
+        el:'#do',
+        methods: {
+                doSomething: function () {
+                   alert(new Date().getHours());
+                }
+            }
+    });
+</script>
+</html>
