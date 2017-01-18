@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue-example</title>
+    <script src="../Scripts/vue.js"></script>
+</head>
+<body>
+    <div id="example"></div>
+</body>
+ <script type="text/javascript">
+    
+    //构造器 每个 Vue.js 应用都是通过构造函数 Vue 创建一个 Vue 的根实例
+    //在实例化 Vue 时，需要传入一个选项对象，它可以包含数据、模板、挂载元素、方法、生命周期钩子等选项
+    var vm = new Vue({
+        // 选项
+    });
+
+    //扩展vue构造器
+    var MyComponent  = Vue.extend({
+        //扩展选项
+    });
+
+    //Vue属性 每个 Vue 实例都会代理其 data 对象里所有的属性
+    var data ={value:'andyWqh'};
+    //alert(data.value);
+
+    var vuedata = new Vue({
+        data:data
+    });
+    //alert(data.value === vuedata.value);
+    
+    vuedata.value = 'jackSon';
+    //alert(data.value);
+
+    data.value = 'mlgb';
+    //alert(vuedata.value);
+    //备注：设置属性也会影响到原始数据，反之亦然，可理解为C#中的引用
+
+    //Vue方法
+    var datafunc = {value:'what are you doing'};
+    var vueDataFunc = new Vue({
+        el:"#example",
+        data:datafunc
+    });
+    alert(vueDataFunc.$data.value);
+    alert(vueDataFunc.$el);
+    alert(document.getElementById('example'));
+    //实例方法
+    vueDataFunc.$watch('value',function(newValue,oldValue){
+        //这里执行回调函数，即value值被修改时执行
+        alert(newValue +"="+ oldValue);
+    });
+ </script>
+</html>
