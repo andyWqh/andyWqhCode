@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>vue-calcProperty</title>
+    <script src="../Scripts/vue.js"></script>
+</head>
+
+<body>
+    <!--简单基础示例-->
+    <div id="example">
+        <p>Original message: "{{ message }}"</p>
+        <p>Computed reversed message: "{{ reversedMessage }}"</p>
+    </div>
+    <!--计算属性缓存VS Methods区别-->
+    <div id="diff">
+        <p>Original Message: "{{ message }}"</p>
+        <p><span>计算属性缓存依赖："{{ CalcateMessage }}" </span></p>
+        <p><span>Methods: "{{ MethodsMessage() }}"</span></p>
+    </div>
+
+    <!--计算属性 VS Watched Property-->
+    <div id="demo">
+        <span> {{ fullName }}</span>
+    </div>
+    <!--观察Watchers-->
+    <div id="watch-example">
+        <p>Ask a yes/no question:
+            <input type="text" v-model="question">
+        </p>
+        <p>{{ answer }}</p>
+    </div>
+</body>
+<script src="https://unpkg.com/axios@0.12.0/dist/axios.min.js"></script>
+<script src="https://unpkg.com/lodash@4.13.1/lodash.min.js"></script>
+<script type="text/javascript">
+    //简单基础示例
+    var vue_example = new Vue({
+        el: '#example',
+        data: {
+            message: 'Hello andyWqh'
+        },
+        computed: {
+            //a Computed getter
+            reversedMessage: function() {
+                // this points to the vue_example instance
+                return this.message.split('').reverse().join('');
+            }
+        }
+    });
+    //计算属性缓存依赖与Methods区别 计算属性只有在它的相关依赖发生改变时才会重新取值。
+    // 这就意味着只要 message 没有发生改变，多次访问 reversedMessage 计算属性会立即返回之前的计算结果，
+    //而不必再次执行函数
+    var vue_diff = new Vue({
+        el: '#diff',
+        data: {
+            message: 'Hello'
+        },
+        methods: {
+            MethodsMessage: function() {
+                return this.message.split('').reverse().join('')
+            }
+        },
+        computed: {
+            //a Computed getter
+            CalcateMessage: function() {
+                // this points to the vue_example instance
+                return this.message.split('').reverse().join('');
+            }
+        }
+    });
+
+    //Watched Property
+    // var vue_watch = new Vue({
+    //     el: '#demo',
+    //     data: {
+    //         firstName: 'andy',
+    //         lastName: 'Wqh',
+    //         fullName: 'andyWqh'
+    //     },
+    //     //监听
+    //     watch: {
+    //         firstName: function(val) {
+    //             this.fullName = val + ' ' + this.lastName
+    //         },
+    //         lastName: function(val) {
+    //             this.fullName = this.firstName + ' ' + val
+    //         }
+    //     }
+    // });
+    //计算属性
+    var vue_calc = new Vue({
+        el: '#demo',
+        data: {
+            firstName: 'andy',
+            lastName: 'Wqh'
+        },
+        computed: {
+            fullName: function() {
+                return this.firstName + "" + this.lastName;
+            }
+        }
+    });
+
+    //观察Watchers
+    var vue_watchers = new Vue({
+        el: '#watch-example',
+        data: {
+            question: '',
+            answer: ' I can not give you an answer untill you ask a question!'
+        },
+        watch: {
+            //如果question发生改变，将自动触发该函数执行
+            question: function(newQuestion) {
+                this.answer = 'Waiting for you to stop typing',
+                    this.getAnswer();
+            }
+        },
+        methods: {
+            // _.debounce 是一个通过 lodash 限制操作频率的函数。
+            // 在这个例子中，我们希望限制访问yesno.wtf/api的频率
+            // ajax请求直到用户输入完毕才会发出
+            // 学习更多关于 _.debounce function (and its cousin
+            // _.throttle), 参考: https://lodash.com/docs#debounce
+            getAnswer: _.debounce(function() {
+                    var vm = this
+                    if (this.question.indexOf('?') === -1) {
+                        vm.answer = 'Questions usually contain a question mark. ;-)'
+                        return
+                    }
+                    vm.answer = 'Thinking...'
+                    axios.get('https://yesno.wtf/api')
+                        .then(function(response) {
+                            vm.answer = _.capitalize(response.data.answer)
+                        })
+                        .catch(function(error) {
+                            vm.answer = 'Error! Could not reach the API. ' + error
+                        })
+                },
+                // 这是我们为用户停止输入等待的毫秒数
+                500
+            )
+        }
+    })
+</script>
+
+</html>
