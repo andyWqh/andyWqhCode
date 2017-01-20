@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>vue-styleClass</title>
+    <script src="../Scripts/vue.js"></script>
+    <style type="text/css">
+        .active {
+            color: red;
+        }
+        
+        .face {
+            font-size: 14px;
+            background-color: aquamarine;
+        }
+    </style>
+</head>
+
+<body>
+    <!--绑定Html Class-对象语法绑定-->
+    <div id="vue-objclass" v-bind:class=" { active:isActive } ">
+        <span>这是html class 之对象语法绑定</span>
+    </div>
+    <div id="vue-objmore" class="static" v-bind:class="{ active: isActive, 'text-danger': hasError }">
+        多个类样式显示效果
+    </div>
+    <!--计算属性实现绑定HTML class-->
+    <div id="vue-calcate" v-bind:class='classObject'>
+        计算属性实现绑定html class效果
+    </div>
+    <!--数组语法绑定html class-->
+    <div id="vue-array" v-bind:class="[activeClass, errorClass]">
+        数组语法实现绑定HTML class 效果
+    </div>
+    <!--绑定内联样式style-对象语法之绑定-->
+    <div id="style-example" v-bind:style="styleObject">
+        有钱没钱 回家过年！
+        <div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }">
+            试试看
+        </div>
+    </div>
+    <!--绑定内联样式style-数组语法之绑定-->
+    <div id='style-array' v-bind:style="[baseStyles, overridingStyles]">
+        数组绑定语法结构
+    </div>
+    <script type="text/javascript">
+        //绑定Html Class-对象语法绑定
+        var vue_obj = new Vue({
+            el: "#vue-objclass",
+            data: {
+                isActive: true,
+                hasError: false
+            }
+        });
+        //多个class样式
+        var vue_obj_more = new Vue({
+            el: "#vue-objmore",
+            data: {
+                isActive: true,
+                hasError: false
+            }
+        });
+        //计算属性
+        var vue_calc = new Vue({
+            el: "#vue-calcate",
+            data: {
+                isActive: true,
+                error: null
+            },
+            computed: {
+                classObject: function() {
+                    return {
+                        active: this.isActive && !this.error,
+                        'text-danger': this.error && this.error.type === 'fatal'
+                    }
+                }
+            }
+
+        });
+        //数组语法实现绑定HTML class
+        var vue_arrayClss = new Vue({
+            el: '#vue-array',
+            data: {
+                activeClass: 'active',
+                errorClass: 'text-danger'
+            }
+        });
+
+        //绑定内联样式style-对象语法之绑定
+        var vue_class = new Vue({
+            el: '#style-example',
+            data: {
+                styleObject: {
+                    color: 'red',
+                    fontSize: '13px'
+                },
+                activeColor: 'red',
+                fontSize: 30
+            }
+        });
+        //绑定内联样式style-数组语法之绑定
+        var vue_array = new Vue({
+            el: "#style-array",
+            data: {
+                baseStyles: {
+                    color: 'blue',
+                    fontSize: '20px'
+                },
+                overridingStyles: {
+                    fontWeight: 'bold'
+                }
+            }
+        });
+    </script>
+
+</html>
