@@ -1,13 +1,69 @@
+<!--
+autor:andyWqh
+DateTime:2017-02-06
+-->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <title>vue-Condition</title>
+    <script src="../Scripts/vue.js"></script>
 </head>
 
 <body>
-
+    <!--template 中使用v-if-->
+    <template v-if="ok">
+        <h1>Title</h1>
+        <p>Paragraph 1</p>
+        <p>Paragraph 2</p>
+    </template>
+    <!--v-else-->
+    <div v-if="Math.random() > 0.5">
+        Sorry
+    </div>
+    <div v-else>
+        Not sorry
+    </div>
+    <!--v-else-if-->
+    <div v-if="type === 'A'">
+        A
+    </div>
+    <div v-else-if="type === 'B'">
+        B
+    </div>
+    <div v-else-if="type === 'C'">
+        C
+    </div>
+    <div v-else>
+        Not A/B/C
+    </div>
+    <!--使用key控制元素的可用性-->
+    <template v-if="loginType === 'username'">
+        <label>Username</label>
+        <input placeholder="Enter your username">
+    </template>
+    <template v-else>
+        <label>Email</label>
+        <input placeholder="Enter your email address">
+    </template>
+    <!--添加key属性-->
+    <template v-if="loginType === 'username'">
+        <label>Username</label>
+        <input placeholder="Enter your username" key="username-input">
+    </template>
+    <template v-else>
+        <label>Email</label>
+        <input placeholder="Enter your email address" key="email-input">
+    </template>
+    <!--V-Show-->
+    <h1 v-show="ok">Hello!</h1>
+    <!--
+        v-if 是真实的条件渲染，因为它会确保条件块在切换当中适当地销毁与重建条件块内的事件监听器和子组件。
+        v-if 也是惰性的：如果在初始渲染时条件为假，则什么也不做——在条件第一次变为真时才开始局部编译（编译会被缓存起来）。
+        相比之下， v-show 简单得多——元素始终被编译并保留，只是简单地基于 CSS 切换。
+        一般来说， v-if 有更高的切换消耗而 v-show 有更高的初始渲染消耗。因此，如果需要频繁切换使用 v-show 较好，如果在运行时条件不大可能改变则使用 v-if 较好。
+    -->
 </body>
 
 </html>

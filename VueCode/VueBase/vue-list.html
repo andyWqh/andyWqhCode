@@ -1,0 +1,94 @@
+<!--
+autor:andyWqh
+DateTime:2017-02-06
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>vue-list</title>
+    <script src="../Scripts/vue.js"></script>
+</head>
+
+<body>
+    <!--
+    我们用 v-for 指令根据一组数组的选项列表进行渲染。 v-for 指令需要以 item in items 形式的特殊语法，
+     items 是源数据数组并且 item 是数组元素迭代的别名。
+-->
+    <!--基本用法-->
+    <ul id="example1-for">
+        <li v-for="item in itemList">
+            {{ item.message }}
+        </li>
+    </ul>
+    <!--
+        在 v-for 块中，我们拥有对父作用域属性的完全访问权限。 v-for 还支持一个可选的第二个参数为当前项的索引。
+        你也可以用 of 替代 in 作为分隔符，因为它是最接近 JavaScript 迭代器的语法：
+        <div v-for="item of items"></div>
+    -->
+    <ul id="example-2">
+        <li v-for="(index,item ) in items">
+            <!--{{ parentMessage }} - {{ index }} - {{ item.message }}-->
+            {{ parentMessage }} - {{ index }} - {{ item.message }}
+        </li>
+    </ul>
+    <!--
+        Template v-for 如同 v-if 模板，你也可以用带有 v-for 的 <template> 标签来渲染多个元素块
+        例如：
+        <ul>
+            <template v-for="item in items">
+                <li>{{ item.msg }}</li>
+                <li class="divider"></li>
+            </template>
+        </ul>
+    -->
+    <!--对象迭代 v-for-->
+    <ul id="repeat-object">
+        <li v-for=" value in objects">
+            {{ value }}
+        </li>
+    </ul>
+
+</body>
+<script type="text/javascript">
+    //v-for循环
+    var example1 = new Vue({
+        el: '#example1-for',
+        data: {
+            itemList: [{
+                message: 'Foo'
+            }, {
+                message: 'Bar'
+            }, {
+                message: "Happy New Year andyWqh!"
+            }]
+        }
+    });
+    //v-for 循环含索引
+    var example2 = new Vue({
+        el: '#example-2',
+        data: {
+            parentMessage: 'Parent',
+            items: [{
+                message: 'Foo'
+            }, {
+                message: 'Bar'
+            }]
+        }
+    });
+    //对象迭代 v-for 在遍历对象时，是按 Object.keys() 的结果遍历，
+    //但是不能保证它的结果在不同的 JavaScript 引擎下是一致的。
+    new Vue({
+        el: '#repeat-object',
+        data: {
+            objects: {
+                FirstName: 'John',
+                LastName: 'Doe',
+                Age: 30
+            }
+        }
+    });
+</script>
+
+</html>
