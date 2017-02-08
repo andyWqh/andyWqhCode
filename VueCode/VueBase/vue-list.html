@@ -45,11 +45,17 @@ DateTime:2017-02-06
     -->
     <!--对象迭代 v-for-->
     <ul id="repeat-object">
-        <li v-for=" value in objects">
-            {{ value }}
+        <li v-for=" (key,value) in objects">
+            {{ key }} -{{ value }}
         </li>
     </ul>
-
+    <!--组件与v-for-->
+    <div id="todo-list-example">
+        <input v-model="newTodoText" v-on:keyup.enter="addNewTodo" placeholder="Add a todo">
+        <ul>
+            <li is="todo-item" v-for="(index,todo) in todos" v-bind:title="todo" v-on:remove="todos.splice(index, 1)"></li>
+        </ul>
+    </div>
 </body>
 <script type="text/javascript">
     //v-for循环
@@ -86,6 +92,34 @@ DateTime:2017-02-06
                 FirstName: 'John',
                 LastName: 'Doe',
                 Age: 30
+            }
+        }
+    });
+
+    //组件与v-for
+    Vue.component('todo-item', {
+        template: '\
+            <li>\
+            {{ title }}\
+            <button v-on:click="$emit(\'remove\')">Delete</button>\
+            </li>\
+        ',
+        props: ['title']
+    });
+    new Vue({
+        el: '#todo-list-example',
+        data: {
+            newTodoText: 'andyWqh',
+            todos: [
+                'Do the dishes',
+                'Take out the trash',
+                'Mow the lawn'
+            ]
+        },
+        methods: {
+            addNewTodo: function() {
+                this.todos.push(this.newTodoText)
+                this.newTodoText = ''
             }
         }
     });

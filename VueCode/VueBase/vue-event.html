@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>vue-enevt deal</title>
+    <script src="../Scripts/vue.min.js"></script>
+</head>
+
+<body>
+    <!--监听事件-->
+    <div id="example-1">
+        <button v-on:click="counter += 1">Add</button>
+        <p>这个按钮被点击了 {{ counter }} 次。</p>
+    </div>
+    <!--方法事件监听处理器-->
+    <div id="example-2">
+        <!--greet 是用户自定方法-->
+        <button v-on:click="greet">Greet</button>
+    </div>
+</body>
+<script type="text/javascript">
+    //监听处理器
+    var example1 = new Vue({
+        el: '#example-1',
+        data: {
+            counter: 0
+        }
+    });
+    //方法事件监听处理器
+    var example2 = new Vue({
+        el: "example-2",
+        data: {
+            name: 'andyWqh'
+        },
+        //在methods对象中自定义方法
+        methods: {
+            greet: function(event) {
+                //this 在方法中是指vue实例
+                alert("Hello" + this.name);
+                //event是原生的DOM事件
+                alert(event.target.targetName);
+            }
+        }
+    });
+</script>
+
+</html>
