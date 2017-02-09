@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>vue-enevt deal</title>
+    <script src="../Scripts/jquery.js"></script>
     <script src="../Scripts/vue.min.js"></script>
 </head>
 
@@ -18,6 +19,64 @@
         <!--greet 是用户自定方法-->
         <button v-on:click="greet">Greet</button>
     </div>
+    <!--内联处理器方法-->
+    <div id="example-3">
+        <button v-on:click="say('hi')">Say Hi</button>
+        <button v-on:click="say('what')">Say What</button>
+        <span id="content"></span>
+    </div>
+    <div id="eventDom">
+        <button v-on:click="warn('Form cannot be submitted yet.', $event)">Submit</button>
+    </div>
+    <!--
+        事件修饰符
+        事件处理程序中调用 event.preventDefault() 或 event.stopPropagation() 是非常常见的需求。
+        尽管我们可以在 methods 中轻松实现这点，但更好的方式是：methods 只有纯粹的数据逻辑，而不是去处理 DOM 事件细节。
+         为了解决这个问题， Vue.js 为 v-on 提供了 事件修饰符。通过由点(.)表示的指令后缀来调用修饰符。
+         .stop
+         .prevent
+         .capture
+         .self
+         .once
+    -->
+    <!-- 阻止单击事件冒泡 -->
+    <a v-on:click.stop="doThis"></a>
+    <!-- 提交事件不再重载页面 -->
+    <form v-on:submit.prevent="onSubmit"></form>
+    <!-- 修饰符可以串联  -->
+    <a v-on:click.stop.prevent="doThat"></a>
+    <!-- 只有修饰符 -->
+    <form v-on:submit.prevent></form>
+    <!-- 添加事件侦听器时使用事件捕获模式 -->
+    <div v-on:click.capture="doThis">...</div>
+    <!-- 只当事件在该元素本身（而不是子元素）触发时触发回调 -->
+    <div v-on:click.self="doThat">...</div>
+
+    <!--
+        按键修饰符
+    -->
+    <!-- 只有在 keyCode 是 13 时调用 vm.submit() -->
+    <input v-on:keyup.13="submit">
+    <!--
+        全部的按键别名：
+        .enter
+        .tab
+        .delete (捕获 “删除” 和 “退格” 键)
+        .esc
+        .space
+        .up
+        .down
+        .left
+        .right
+        可以通过全局 config.keyCodes 对象自定义按键修饰符别名：
+        // 可以使用 v-on:keyup.f1
+        Vue.config.keyCodes.f1 = 112
+    -->
+    <!-- Alt + C -->
+    <input @keyup.alt.67="clear">
+    <!-- Ctrl + Click -->
+    <div @click.ctrl="doSomething">Do something</div>
+
 </body>
 <script type="text/javascript">
     //监听处理器
@@ -29,17 +88,44 @@
     });
     //方法事件监听处理器
     var example2 = new Vue({
-        el: "example-2",
+        el: '#example-2',
         data: {
             name: 'andyWqh'
         },
-        //在methods对象中自定义方法
+        // 在 `methods` 对象中定义方法
         methods: {
             greet: function(event) {
-                //this 在方法中是指vue实例
-                alert("Hello" + this.name);
-                //event是原生的DOM事件
-                alert(event.target.targetName);
+                // `this` 在方法里指当前 Vue 实例
+                alert('Hello ' + this.name + '!')
+                    // `event` 是原生 DOM 事件,event.target.tagName 表示事件名称
+                alert(event.target.tagName)
+            }
+        }
+    });
+    //内联处理器方法
+    var example3 = new Vue({
+        el: "#example-3",
+        data: {
+            name: 'andyWqh'
+        },
+        methods: {
+            say: function(message) {
+                $("#content").text(message + "!" + this.name);
+            }
+        }
+    });
+    //访问原生DOM事件
+    var eventDom = new Vue({
+        el: '#eventDom',
+        data: {
+            name: 'andyWqh'
+        },
+        methods: {
+            warn: function(msg, event) {
+                if (!event) {
+                    event.preventDefault();
+                }
+                alert(this.name + "!" + msg);
             }
         }
     });
