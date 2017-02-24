@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Vue-Demo</title>
+    <script src="../Scripts/vue.js"></script>
+    <style type="text/css">
+        #divFor {
+            width: 100%;
+            height: auto;
+        }
+        
+        #divFor table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        #divFor table thead tr {
+            background-color: green;
+        }
+        
+        #divFor table thead th {
+            width: 70px;
+            height: 40px;
+            text-align: center;
+            vertical-align: middle;
+            text-indent: 1px;
+            border: 1px solid gray;
+        }
+        
+        #divFor table tbody td {
+            height: 40px;
+            text-align: center;
+            vertical-align: middle;
+            text-indent: 1px;
+            border: 1px solid gray;
+        }
+    </style>
+</head>
+
+<body>
+    <!--这是我们的View-->
+    <div id="divApp">
+        {{ messgae }}
+    </div>
+    <!--V-Model 双向绑定-->
+    <div id="divVModel">
+        <p> {{ modelMsg }} </p>
+        <input type="text" v-model="modelMsg" />
+    </div>
+    <!--V-if指令-->
+    <div id="divVIf">
+        <h1>Hello, Vue.js!</h1>
+        <h1 v-if="yes">Yes!</h1>
+        <h1 v-if="no">No!</h1>
+        <h1 v-if="age >= 25">Age: {{ age }}</h1>
+        <h1 v-if="name.indexOf('A') >= 0">Name: {{ name }}</h1>
+    </div>
+    <!--V-Show指令-->
+    <div id="divShow">
+        <h1>Hello, Vue.js!</h1>
+        <h1 v-show="yes">Yes!</h1>
+        <h1 v-show="no">No!</h1>
+        <h1 v-show="age >= 25">Age: {{ age }}</h1>
+        <h1 v-show="name.indexOf('jack') >= 0">Name: {{ name }}</h1>
+    </div>
+    <!--V-else指令-->
+    <div id="divElse">
+        <h1 v-if="age >= 30">Age: {{ age }}</h1>
+        <h1 v-else>Name: {{ name }}</h1>
+        <h1>---------------------分割线---------------------</h1>
+        <h1 v-show="name.indexOf('keep') >= 0">Name: {{ name }}</h1>
+        <h1 v-else>Sex: {{ sex }}</h1>
+    </div>
+    <!--V-for指令-->
+    <div id="divFor">
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Sex</th>
+                    <th>phone</th>
+                    <th>qqNum</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="person in peopleList">
+                    <td> {{ person.name }}</td>
+                    <td> {{ person.age }} </td>
+                    <td> {{ person.sex }} </td>
+                    <td> {{ person.phone }} </td>
+                    <td> {{ person.qqNum }} </td>
+                    <td> {{ person.email }} </td>
+                    <td> {{ person.address }} </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!--V-bind指令-->
+</body>
+<script>
+    //这是我们的Model
+    var divAppData = {
+        messgae: 'Hello Dear AndyWqh!'
+    };
+    //创建一个Vue实例或者'ViewModel'
+    //它连接View与Model
+    var divApp = new Vue({
+        el: "#divApp",
+        data: divAppData
+    });
+
+    //v-model双向绑定
+    var divVModel = new Vue({
+        el: '#divVModel',
+        data: {
+            modelMsg: 'Hello Dear AndyWqh!'
+        }
+    });
+
+    //V-if指令
+    var divVIf = new Vue({
+        el: '#divVIf',
+        data: {
+            yes: true,
+            no: false,
+            age: 28,
+            name: 'AndyWqh'
+        }
+    });
+
+    //v-show指令
+    var divShow = new Vue({
+        el: '#divShow',
+        data: {
+            yes: true,
+            no: true,
+            age: 28,
+            name: 'AndyWqh'
+        }
+    });
+
+    //v-else
+    var divElse = new Vue({
+        el: '#divElse',
+        data: {
+            age: 28,
+            sex: '男',
+            name: 'AndyWqh'
+        }
+    });
+
+    //V-for指令
+    var divFor = new Vue({
+        el: '#divFor',
+        data: {
+            peopleList: [{
+                name: 'Jack',
+                age: 30,
+                sex: 'Male',
+                phone: '188113972653',
+                qqNum: '244582224',
+                email: 'JackSon@hotmail.com',
+                address: '广州'
+            }, {
+                name: 'Bill',
+                age: 26,
+                sex: 'Male',
+                phone: '15270020554',
+                qqNum: '546822564',
+                email: 'andysun@qq.com',
+                address: '深圳'
+            }, {
+                name: 'Tracy',
+                age: 22,
+                sex: 'Female',
+                phone: '188113972653',
+                qqNum: '35615822',
+                email: 'Tracy@163.com',
+                address: '杭州'
+            }, {
+                name: 'Chris',
+                age: 36,
+                sex: 'Male',
+                phone: '15945632123',
+                qqNum: '785425588',
+                email: 'Chris@126.com',
+                address: '上海'
+            }]
+        }
+    })
+</script>
+
+</html>
